@@ -9,11 +9,13 @@ const page = {
   menu: document.querySelector(".menu__list"),
   header: {
     h1: document.querySelector("h1"),
+    progress: document.querySelector(".progress"),
     progressPercent: document.querySelector(".progress__percent"),
     progressCoverBar: document.querySelector(".progress__cover-bar"),
   },
   main: {
     days: document.querySelector(".days"),
+    addDay: document.querySelector(".habit"),
     habitDayAdd: document.querySelector(".habit__day-add"),
   },
   popup: {
@@ -62,6 +64,8 @@ function rerenderMenu(activeHabit) {
 }
 
 function rerenderHeader(activeHabit) {
+  page.header.progress.classList.remove("hidden");
+
   page.header.h1.innerText = activeHabit.name;
 
   const progress =
@@ -74,6 +78,8 @@ function rerenderHeader(activeHabit) {
 }
 
 function rerenderBody(activeHabit) {
+  page.main.addDay.classList.remove("hidden");
+
   page.main.days.innerHTML = "";
   for (const [i, day] of activeHabit.days.entries()) {
     const divHabit = document.createElement("div");
@@ -190,7 +196,7 @@ function addHabit(event) {
   });
 
   saveData();
-  rerender(globalActiveHabitId);
+  rerender(habits.length);
   togglePopup();
   resetForm(form, ["name", "target"]);
 }
@@ -238,6 +244,6 @@ function validateForm(form, fields) {
   if (habit) {
     rerender(habit.id);
   } else {
-    rerender(habits[0].id);
+    rerender(habits[0]?.id);
   }
 })();

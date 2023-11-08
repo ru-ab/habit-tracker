@@ -26,8 +26,8 @@
       </div>
       <div class="content">
         <header>
-          <h1 class="h1">-</h1>
-          <div class="progress">
+          <h1 class="h1">Add your first habit!</h1>
+          <div class="progress hidden">
             <div class="progress__text">
               <div class="progress__name">Progress</div>
               <div class="progress__percent">%</div>
@@ -39,7 +39,7 @@
         </header>
         <main>
           <div class="days"></div>
-          <div class="habit">
+          <div class="habit hidden">
             <div class="habit__day habit__day-add">Day _</div>
             <form class="habit__form" onsubmit="addDays(event)">
               <input
@@ -49,7 +49,7 @@
                 placeholder="Comment"
               />
               <img class="input__icon" src="images/comment.svg" alt="" />
-              <button class="button" type="submit">Create</button>
+              <button class="button" type="submit">Complete</button>
             </form>
           </div>
         </main>
