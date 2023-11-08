@@ -1,8 +1,8 @@
 "use strict";
 
-const HABBIT_KEY = "HABBIT_KEY";
-let habbits = [];
-let globalActiveHabbitId;
+const LOCAL_STORAGE_KEY = "HABIT_KEY";
+let habits = [];
+let globalActiveHabitId;
 
 /* page */
 const page = {
@@ -14,7 +14,7 @@ const page = {
   },
   main: {
     days: document.querySelector(".days"),
-    habbitDayAdd: document.querySelector(".habbit__day-add"),
+    habitDayAdd: document.querySelector(".habit__day-add"),
   },
   popup: {
     index: document.getElementById("add-habit-popup"),
@@ -24,36 +24,36 @@ const page = {
 
 /* utils */
 function loadData() {
-  const habbitsString = localStorage.getItem(HABBIT_KEY);
-  const habbitArray = JSON.parse(habbitsString);
+  const habitsString = localStorage.getItem(LOCAL_STORAGE_KEY);
+  const habitArray = JSON.parse(habitsString);
 
-  if (Array.isArray(habbitArray)) {
-    habbits = habbitArray;
+  if (Array.isArray(habitArray)) {
+    habits = habitArray;
   }
 }
 
 function saveData() {
-  localStorage.setItem(HABBIT_KEY, JSON.stringify(habbits));
+  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(habits));
 }
 
 /* render */
-function rerenderMenu(activeHabbit) {
-  for (const habbit of habbits) {
-    const existed = document.querySelector(`[menu-habbit-id="${habbit.id}"]`);
+function rerenderMenu(activeHabit) {
+  for (const habit of habits) {
+    const existed = document.querySelector(`[menu-habit-id="${habit.id}"]`);
     if (!existed) {
       const element = document.createElement("button");
-      element.addEventListener("click", () => rerender(habbit.id));
-      element.setAttribute("menu-habbit-id", habbit.id);
+      element.addEventListener("click", () => rerender(habit.id));
+      element.setAttribute("menu-habit-id", habit.id);
       element.classList.add("menu__item");
-      element.innerHTML = `<img src="./images/${habbit.icon}.svg" alt="${habbit.name}" />`;
-      if (habbit.id === activeHabbit.id) {
+      element.innerHTML = `<img src="./images/${habit.icon}.svg" alt="${habit.name}" />`;
+      if (habit.id === activeHabit.id) {
         element.classList.add("menu__item_active");
       }
       page.menu.appendChild(element);
       continue;
     }
 
-    if (habbit.id === activeHabbit.id) {
+    if (habit.id === activeHabit.id) {
       existed.classList.add("menu__item_active");
     } else {
       existed.classList.remove("menu__item_active");
@@ -61,60 +61,60 @@ function rerenderMenu(activeHabbit) {
   }
 }
 
-function rerenderHeader(activeHabbit) {
-  page.header.h1.innerText = activeHabbit.name;
+function rerenderHeader(activeHabit) {
+  page.header.h1.innerText = activeHabit.name;
 
   const progress =
-    activeHabbit.days.length / activeHabbit.target > 1
+    activeHabit.days.length / activeHabit.target > 1
       ? 100
-      : (activeHabbit.days.length / activeHabbit.target) * 100;
+      : (activeHabit.days.length / activeHabit.target) * 100;
 
   page.header.progressPercent.innerText = `${progress.toFixed(0)}%`;
   page.header.progressCoverBar.setAttribute("style", `width: ${progress}%`);
 }
 
-function rerenderBody(activeHabbit) {
+function rerenderBody(activeHabit) {
   page.main.days.innerHTML = "";
-  for (const [i, day] of activeHabbit.days.entries()) {
-    const divHabbit = document.createElement("div");
-    divHabbit.classList.add("habbit");
+  for (const [i, day] of activeHabit.days.entries()) {
+    const divHabit = document.createElement("div");
+    divHabit.classList.add("habit");
 
-    const divHabbitDay = document.createElement("div");
-    divHabbitDay.classList.add("habbit__day");
-    divHabbitDay.innerText = `День ${i + 1}`;
-    divHabbit.appendChild(divHabbitDay);
+    const divHabitDay = document.createElement("div");
+    divHabitDay.classList.add("habit__day");
+    divHabitDay.innerText = `День ${i + 1}`;
+    divHabit.appendChild(divHabitDay);
 
-    const divHabbitComment = document.createElement("div");
-    divHabbitComment.classList.add("habbit__comment");
-    divHabbitComment.innerText = day.comment;
-    divHabbit.appendChild(divHabbitComment);
+    const divHabitComment = document.createElement("div");
+    divHabitComment.classList.add("habit__comment");
+    divHabitComment.innerText = day.comment;
+    divHabit.appendChild(divHabitComment);
 
     const deleteButton = document.createElement("button");
     deleteButton.addEventListener("click", () => deleteDay(i));
-    deleteButton.classList.add("habbit__delete");
+    deleteButton.classList.add("habit__delete");
     deleteButton.innerHTML = `<img src="images/delete.svg" alt="Удалить день ${
       i + 1
     }" />`;
-    divHabbit.appendChild(deleteButton);
+    divHabit.appendChild(deleteButton);
 
-    page.main.days.appendChild(divHabbit);
+    page.main.days.appendChild(divHabit);
   }
 
-  page.main.habbitDayAdd.innerText = `День ${activeHabbit.days.length + 1}`;
+  page.main.habitDayAdd.innerText = `День ${activeHabit.days.length + 1}`;
 }
 
-function rerender(activeHabbitId) {
-  globalActiveHabbitId = activeHabbitId;
-  const activeHabbit = habbits.find((habbit) => habbit.id === activeHabbitId);
-  if (!activeHabbit) {
+function rerender(activeHabitId) {
+  globalActiveHabitId = activeHabitId;
+  const activeHabit = habits.find((habit) => habit.id === activeHabitId);
+  if (!activeHabit) {
     return;
   }
 
-  document.location.replace(document.location.pathname + "#" + activeHabbitId);
+  document.location.replace(document.location.pathname + "#" + activeHabitId);
 
-  rerenderMenu(activeHabbit);
-  rerenderHeader(activeHabbit);
-  rerenderBody(activeHabbit);
+  rerenderMenu(activeHabit);
+  rerenderHeader(activeHabit);
+  rerenderBody(activeHabit);
 }
 
 /* work with days */
@@ -126,29 +126,29 @@ function addDays(event) {
     return;
   }
 
-  habbits = habbits.map((habbit) => {
-    if (habbit.id === globalActiveHabbitId) {
+  habits = habits.map((habit) => {
+    if (habit.id === globalActiveHabitId) {
       return {
-        ...habbit,
-        days: habbit.days.concat([{ comment: formValues.comment }]),
+        ...habit,
+        days: habit.days.concat([{ comment: formValues.comment }]),
       };
     }
-    return habbit;
+    return habit;
   });
   resetForm(form, ["comment"]);
-  rerender(globalActiveHabbitId);
+  rerender(globalActiveHabitId);
   saveData();
 }
 
 function deleteDay(index) {
-  habbits = habbits.map((habbit) => {
-    if (habbit.id === globalActiveHabbitId) {
-      habbit.days = habbit.days.filter((day, i) => i !== index);
+  habits = habits.map((habit) => {
+    if (habit.id === globalActiveHabitId) {
+      habit.days = habit.days.filter((day, i) => i !== index);
     }
-    return habbit;
+    return habit;
   });
 
-  rerender(globalActiveHabbitId);
+  rerender(globalActiveHabitId);
   saveData();
 }
 
@@ -177,11 +177,11 @@ function addHabit(event) {
     return;
   }
 
-  const maxId = habbits.reduce(
-    (acc, habbit) => (habbit.id > acc ? habbit.id : acc),
+  const maxId = habits.reduce(
+    (acc, habit) => (habit.id > acc ? habit.id : acc),
     0
   );
-  habbits.push({
+  habits.push({
     id: maxId + 1,
     icon: formValues.icon,
     name: formValues.name,
@@ -190,7 +190,7 @@ function addHabit(event) {
   });
 
   saveData();
-  rerender(globalActiveHabbitId);
+  rerender(globalActiveHabitId);
   togglePopup();
   resetForm(form, ["name", "target"]);
 }
@@ -234,10 +234,10 @@ function validateForm(form, fields) {
   loadData();
 
   const hashId = Number(document.location.hash.replace("#", ""));
-  const habbit = habbits.find((habbit) => habbit.id === hashId);
-  if (habbit) {
-    rerender(habbit.id);
+  const habit = habits.find((habit) => habit.id === hashId);
+  if (habit) {
+    rerender(habit.id);
   } else {
-    rerender(habbits[0].id);
+    rerender(habits[0].id);
   }
 })();

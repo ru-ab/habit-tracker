@@ -137,7 +137,7 @@ main {
   margin-top: 30px;
 }
 
-.habbit {
+.habit {
   background-color: #ffffff;
   border-radius: 10px;
   display: flex;
@@ -145,7 +145,7 @@ main {
   margin-bottom: 12px;
 }
 
-.habbit__day {
+.habit__day {
   background-color: #fbfaff;
   border-radius: 10px 0 0 10px;
   border-right: 1px solid #e7ebfb;
@@ -155,13 +155,13 @@ main {
   min-width: 150px;
 }
 
-.habbit__comment {
+.habit__comment {
   font-size: 16px;
   line-height: 18px;
   padding: 20px 25px;
 }
 
-.habbit__delete {
+.habit__delete {
   margin-left: auto;
   margin-right: 10px;
   background: none;
@@ -171,7 +171,7 @@ main {
   padding: 2px;
 }
 
-.habbit__delete:hover {
+.habit__delete:hover {
   background-color: #eff2ff;
 }
 
@@ -195,7 +195,7 @@ input.error {
   border: 1px solid red;
 }
 
-.habbit__form {
+.habit__form {
   display: flex;
   gap: 15px;
   width: 100%;
