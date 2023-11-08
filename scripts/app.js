@@ -81,7 +81,7 @@ function rerenderBody(activeHabit) {
 
     const divHabitDay = document.createElement("div");
     divHabitDay.classList.add("habit__day");
-    divHabitDay.innerText = `День ${i + 1}`;
+    divHabitDay.innerText = `Day ${i + 1}`;
     divHabit.appendChild(divHabitDay);
 
     const divHabitComment = document.createElement("div");
@@ -92,7 +92,7 @@ function rerenderBody(activeHabit) {
     const deleteButton = document.createElement("button");
     deleteButton.addEventListener("click", () => deleteDay(i));
     deleteButton.classList.add("habit__delete");
-    deleteButton.innerHTML = `<img src="images/delete.svg" alt="Удалить день ${
+    deleteButton.innerHTML = `<img src="images/delete.svg" alt="Delete day ${
       i + 1
     }" />`;
     divHabit.appendChild(deleteButton);
@@ -100,7 +100,7 @@ function rerenderBody(activeHabit) {
     page.main.days.appendChild(divHabit);
   }
 
-  page.main.habitDayAdd.innerText = `День ${activeHabit.days.length + 1}`;
+  page.main.habitDayAdd.innerText = `Day ${activeHabit.days.length + 1}`;
 }
 
 function rerender(activeHabitId) {
